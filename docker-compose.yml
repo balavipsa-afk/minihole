@@ -1,0 +1,17 @@
+services:
+  minihole:
+    build: .
+    container_name: minihole
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Bind inside the isolated container; host ports below remain loopback-only.
+      DNS_HOST: 0.0.0.0
+      API_HOST: 0.0.0.0
+    ports:
+      # Loopback publishing keeps Docker services private to this computer.
+      - "127.0.0.1:8000:8000/tcp"
+      - "127.0.0.1:5353:5353/udp"
+      - "127.0.0.1:5353:5353/tcp"
+    volumes:
+      - ./data:/app/data
